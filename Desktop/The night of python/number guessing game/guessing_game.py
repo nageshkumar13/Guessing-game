@@ -1,51 +1,77 @@
-import random  # Import the random module to generate random numbers
-from art import welcome_message  # Import the welcome_message from the art module
+import random
+import logging
+from art import welcome_message
 
-def game():  # Define a function named game
-    computer_number = random.randint(0, 100)  # Generate a random number between 0 and 100
-    valid_difficulties = ['easy', 'hard']  # Define a list of valid difficulty levels
+# Configure the logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-    diff = ""  # Initialize the variable diff
-    while diff not in valid_difficulties:  # Continue loop until valid difficulty is chosen
-        diff = input("Choose difficulty 'easy' or 'hard': ").lower()  # Prompt user for difficulty choice
+def game():
+    # Generate a random number between 0 and 100
+    computer_number = random.randint(0, 100)
+    # Define a list of valid difficulty levels
+    valid_difficulties = ['easy', 'hard']
 
-        if diff not in valid_difficulties:  # If input is not valid, Print error message
-            print("Invalid input. Please choose 'easy' or 'hard'.")   
+    # Initialize the variable diff and continue loop until valid difficulty is chosen
+    diff = ""
+    while diff not in valid_difficulties:
+        # Prompt user for difficulty choice
+        diff = input("Choose difficulty 'easy' or 'hard': ").lower()
+        if diff not in valid_difficulties:
+            # If input is not valid, print error message
+            logger.info("Invalid input. Please choose 'easy' or 'hard'.")
 
-    print(f"I am thinking of a number between 0 and 100.")  # Print message indicating the range of guess
-    attempts = 0  # Initialize variable to store number of attempts
+    # Print message indicating the range of guess
+    logger.info("I am thinking of a number between 0 and 100.")
+    # Initialize variable to store number of attempts
+    attempts = 0
 
-    if diff == "easy":  # If difficulty is easy Set attempts to 10.
-        attempts = 10   
-    elif diff == "hard":  # If difficulty is hard Set attempts to 5.
-        attempts = 5     
+    # If difficulty is easy, set attempts to 10; if difficulty is hard, set attempts to 5
+    if diff == "easy":
+        attempts = 10
+    elif diff == "hard":
+        attempts = 5
 
-    print(f"You have {attempts} attempts to guess the number.")  # Print number of attempts available
-    
-    end_of_game = False  # Initialize variable to control game loop
+    # Print number of attempts available
+    logger.info(f"You have {attempts} attempts to guess the number.")
 
-    while not end_of_game:  # Start the game loop
-        guess = int(input("Guess the number: "))  # Prompt user to input their guess and convert to integer
-        attempts -= 1  # Decrement the number of attempts remaining
+    # Initialize variable to control game loop
+    end_of_game = False
 
-        if guess == computer_number:  # If the guess is correct
-            print(f"{guess} is the correct answer.")  # Print a message indicating the correct guess
-            end_of_game = True  # Set end_of_game flag to True to end the game
+    # Start the game loop
+    while not end_of_game:
+        # Prompt user to input their guess and convert to integer
+        guess = int(input("Guess the number: "))
+        # Decrement the number of attempts remaining
+        attempts -= 1
 
-        elif guess < computer_number:  # If the guess is too low
-            print(f"{guess} is too low. You have {attempts} attempts left.")  # Print a message indicating the guess is too low
-        else:  # If the guess is too high
-            print(f"{guess} is too high. You have {attempts} attempts left.")  # Print a message indicating the guess is too high
+        # If the guess is correct
+        if guess == computer_number:
+            # Print a message indicating the correct guess
+            logger.info(f"{guess} is the correct answer.")
+            # Set end_of_game flag to True to end the game
+            end_of_game = True
+        # If the guess is too low
+        elif guess < computer_number:
+            # Print a message indicating the guess is too low
+            logger.info(f"{guess} is too low. You have {attempts} attempts left.")
+        # If the guess is too high
+        else:
+            # Print a message indicating the guess is too high
+            logger.info(f"{guess} is too high. You have {attempts} attempts left.")
 
-        if attempts == 0:  # If there are no attempts left
-            end_of_game = True  # Set end_of_game flag to True to end the game
-        elif not end_of_game:  # If the game is not over yet
-            print("Guess again!")  # Prompt the user to guess again
+        # If there are no attempts left or the game is not over yet, prompt the user to guess again
+        if attempts == 0:
+            end_of_game = True
+        elif not end_of_game:
+            logger.info("Guess again!")
 
-    play_again = input("Do you want to play again? (yes/no): ").lower()  # Ask user if they want to play again
-    if play_again == "yes":  # If user wants to play again
-        game()  # Call the game function recursively to start a new game
+    # Ask user if they want to play again
+    play_again = input("Do you want to play again? (yes/no): ").lower()
+    # If user wants to play again, call the game function recursively to start a new game
+    if play_again == "yes":
+        game()
 
 # Start the game
-print(welcome_message)  # Print the welcome message
-game()  # Call the game function to start the game
+logger.info(welcome_message)
+game()

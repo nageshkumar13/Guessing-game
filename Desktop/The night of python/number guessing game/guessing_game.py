@@ -6,6 +6,7 @@ from art import welcome_message
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def game():
     # Generate a random number between 0 and 100
     computer_number = random.randint(0, 100)
@@ -37,6 +38,7 @@ def game():
 
     # Initialize variable to control game loop
     end_of_game = False
+
 
     # Start the game loop
     while not end_of_game:

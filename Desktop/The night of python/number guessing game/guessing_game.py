@@ -1,4 +1,6 @@
+#importing random module 
 import random
+# import logging module
 import logging
 from art import welcome_message
 
@@ -6,7 +8,7 @@ from art import welcome_message
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
+# define game funtion
 def game():
     # Generate a random number between 0 and 100
     computer_number = random.randint(0, 100)
